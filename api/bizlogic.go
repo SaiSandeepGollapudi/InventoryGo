@@ -9,6 +9,8 @@ import (
 
 type IBizLogic interface {
 	CreateProductLogic(Product model.Product) error
+		UpdateProductLogic(Product model.Product) error
+
 }
 
 type BizLogic struct {
@@ -28,5 +30,12 @@ func (bl *BizLogic) CreateProductLogic(Product model.Product) error {
 		return err
 	}
 
+	return nil
+}
+
+func (bl *BizLogic) UpdateProductLogic(Product model.Product) error {
+	if err := dataservice.UpdateProduct(bl.DB, Product); err != nil {
+		return err
+	}
 	return nil
 }
