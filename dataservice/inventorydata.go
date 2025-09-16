@@ -22,6 +22,7 @@ func CreateProduct(db *sql.DB, Product model.Product) error {
 	_, err := db.Exec("INSERT INTO products1 (id, name, quantity) VALUES (?, ?, ?)",
 		Product.Id, Product.Name, Product.Quantity)
 	return err
+	
 }
 
 // update
