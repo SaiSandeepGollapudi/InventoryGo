@@ -37,3 +37,24 @@ func (h Handler) CreateHandler() http.HandlerFunc {
 }
 
 
+func (h Handler) UpdateHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPut && r.Method != http.MethodPost {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+
+		var Product model.Product
+		if err := json.NewDecoder(r.Body).Decode(&Product); err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		if err := h.biz.UpdateProductLogic(Product); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+	}
+}
